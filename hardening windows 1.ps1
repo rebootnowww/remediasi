@@ -4141,6 +4141,75 @@ start-sleep -Seconds 2
 start-sleep -Seconds 2
 
 #Ensure 'Configuration of wireless settings using Windows Connect Now' is set to 'Disabled'.
+    Write-Host "Ensure 'Configuration of wireless settings using Windows Connect Now' is set to 'Disabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WCN\Registrars"
+    $registryName = "EnableRegistrars"
+    $registryValue = 0
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+    # Additional registry settings
+    $additionalSettings = @(
+        @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WCN\Registrars"; Name = "DisableFlashConfigRegistrar"; Value = 0 },
+        @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WCN\Registrars"; Name = "DisableUPnPRegistrar"; Value = 0 },
+        @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WCN\Registrars"; Name = "DisableInBand802DOT11Registrar"; Value = 0 },
+        @{ Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WCN\Registrars"; Name = "DisableWPDRegistrar"; Value = 0 }
+    )
+
+    foreach ($setting in $additionalSettings) {
+        try {
+            Set-RegistryValue -Path $setting.Path -Name $setting.Name -Value $setting.Value
+        } catch {
+            Write-Host "Attempting to create the registry key and set the value for $($setting.Name)..."
+            New-RegistryKey -Path $setting.Path
+            Set-RegistryValue -Path $setting.Path -Name $setting.Name -Value $setting.Value
+        }
+    }
+
+start-sleep -Seconds 2
+
 #Ensure 'Prohibit access of the Windows Connect Now wizards' is set to 'Enabled'.
 #Ensure 'Minimize the number of simultaneous connections to the Internet or a Windows Domain' is set to 'Enabled: 3 = Prevent Wi-Fi when on Ethernet'.
 #Ensure 'Allow Print Spooler to accept client connections' is set to 'Disabled'.
