@@ -1,27 +1,32 @@
 #Copy supporting data
-   #Copy file audit.csv to the specified folders
+    #Copy file audit.csv to the specified folders
     Write-Host "Copying audit.csv to the specified folders..." -ForegroundColor Yellow 
 
-    # Rename the existing audit.csv to audit.csv.bak
-    if (Test-Path "C:\Windows\security\audit\audit.csv") {
-        Rename-Item -Path "C:\Windows\security\audit\audit.csv" -NewName "audit.csv.bak"
-    }
-
-    if (Test-Path "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv") {
-        Rename-Item -Path "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv" -NewName "audit.csv.bak"
-    }
-
-    # Copy the new audit.csv from the 'remediasi' folder on the desktop to the specified folders
+    # Define the paths
     $desktopPath = [System.Environment]::GetFolderPath('Desktop')
     $remediasiPath = Join-Path -Path $desktopPath -ChildPath "remediasi"
     $newAuditCsvPath = Join-Path -Path $remediasiPath -ChildPath "audit.csv"
 
+    # Check and rename existing audit.csv, if it exists
+    if (Test-Path "C:\Windows\security\audit\audit.csv") {
+        Rename-Item -Path "C:\Windows\security\audit\audit.csv" -NewName "audit.csv.bak"
+    } else {
+        Copy-Item -Path $newAuditCsvPath -Destination "C:\Windows\security\audit\audit.csv"
+    }
+
+    if (Test-Path "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv") {
+        Rename-Item -Path "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv" -NewName "audit.csv.bak"
+    } else {
+        Copy-Item -Path $newAuditCsvPath -Destination "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv"
+    }
+
+    # Copy the new audit.csv from the 'remediasi' folder on the desktop to the specified folders
     Copy-Item -Path $newAuditCsvPath -Destination "C:\Windows\security\audit\audit.csv"
     Copy-Item -Path $newAuditCsvPath -Destination "C:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv"
 
     Write-Host "audit.csv copied successfully." -ForegroundColor Green
     Write-Host "Do a reset first so that the audit runs" -ForegroundColor Yellow
-    Start-Sleep -Seconds 2
+Start-Sleep -Seconds 2
 
     #Copy Template AdmPwd,MSS-legacy,SecGuide
     Write-Host "Copying Template AdmPwd,MSS-legacy,SecGuide..." -ForegroundColor Yellow 
