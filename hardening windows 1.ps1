@@ -2838,58 +2838,6 @@ Write-Host "Ensure 'Allow Online Tips' is set to 'Disabled'."
 
 start-sleep -Seconds 1
 
-#Ensure 'Configure RPC packet level privacy setting for incoming connections' is set to 'Enabled'.
-Write-Host "Ensure 'Configure RPC packet level privacy setting for incoming connections' is set to 'Enabled'."
-    # Define the registry path and value
-    $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Print"
-    $registryName = "RpcAuthnLevel"
-    $registryValue = 1
-
-    # Function to create the registry key if it does not exist
-    function New-RegistryKey {
-        param (
-            [string]$Path
-        )
-        try {
-            if (-Not (Test-Path -Path $Path)) {
-                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-                Write-Host "Registry key created at $Path"
-            }
-        } catch {
-            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-
-    # Function to set the registry value
-    function Set-RegistryValue {
-        param (
-            [string]$Path,
-            [string]$Name,
-            [int]$Value
-        )
-        try {
-            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
-            Write-Host "Registry value $Name set to $Value at $Path"
-        } catch {
-            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-
-    # Main script logic
-    try {
-        # Attempt to set the registry value
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    } catch {
-        # If setting the value fails, create the key and then set the value
-        Write-Host "Attempting to create the registry key and set the value..."
-        New-RegistryKey -Path $registryPath
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    }
-
-start-sleep -Seconds 1
-
 #Ensure 'Configure SMB v1 client driver' is set to 'Enabled: Disable driver (recommended)'.
 Write-Host "Ensure 'Configure SMB v1 client driver' is set to 'Enabled: Disable driver (recommended)'."
     # Define the registry path and value
@@ -4415,58 +4363,6 @@ start-sleep -Seconds 1
         New-RegistryKey -Path $registryPath
         Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
     }        
-
-start-sleep -Seconds 1
-
-#Ensure 'Configure RPC connection settings: Protocol to use for outgoing RPC connections' is set to 'Enabled: RPC over TCP'.
-    Write-Host "Ensure 'Configure RPC connection settings: Protocol to use for outgoing RPC connections' is set to 'Enabled: RPC over TCP'."
-    # Define the registry path and value
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers"
-    $registryName = "RpcUseNamedPipeProtocols"
-    $registryValue = 1
-
-    # Function to create the registry key if it does not exist
-    function New-RegistryKey {
-        param (
-            [string]$Path
-        )
-        try {
-            if (-Not (Test-Path -Path $Path)) {
-                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-                Write-Host "Registry key created at $Path"
-            }
-        } catch {
-            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-
-    # Function to set the registry value
-    function Set-RegistryValue {
-        param (
-            [string]$Path,
-            [string]$Name,
-            [int]$Value
-        )
-        try {
-            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
-            Write-Host "Registry value $Name set to $Value at $Path"
-        } catch {
-            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-
-    # Main script logic
-    try {
-        # Attempt to set the registry value
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    } catch {
-        # If setting the value fails, create the key and then set the value
-        Write-Host "Attempting to create the registry key and set the value..."
-        New-RegistryKey -Path $registryPath
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    }
 
 start-sleep -Seconds 1
 
@@ -6237,8 +6133,6 @@ start-sleep -Seconds 1
 
 start-sleep -Seconds 1
 
-#starthere
-
 #Ensure 'Allow Cloud Search' is set to 'Enabled: Disable Cloud Search'.
     Write-Host "Ensure 'Allow Cloud Search' is set to 'Enabled: Disable Cloud Search'."
     # Define the registry path and value
@@ -6503,7 +6397,7 @@ start-sleep -Seconds 1
 
     Write-Host "Ensure 'Allow Use of Camera' is set to 'Disabled'."
     # Define the registry path and value
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Camera"
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Camera"
     $registryName = "AllowCamera"
     $registryValue = 0
 
@@ -7385,5 +7279,1251 @@ start-sleep -Seconds 1
 
 start-sleep -Seconds 1
 
+#Ensure 'Turn on e-mail scanning' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn on e-mail scanning' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Scan"
+    $registryName = "DisableEmailScanning"
+    $registryValue = 0
 
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn on PowerShell Transcription' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn on PowerShell Transcription' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription"
+    $registryName = "EnableTranscripting"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn on PowerShell Script Block Logging' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn on PowerShell Script Block Logging' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"
+    $registryName = "EnableScriptBlockLogging"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off the advertising ID' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off the advertising ID' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+    $registryName = "DisabledByGroupPolicy"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off shell protocol protected mode' is set to 'Disabled'.
+    Write-Host "Ensure 'Turn off shell protocol protected mode' is set to 'Disabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+    $registryName = "PreXPSP2ShellProtocolBehavior"
+    $registryValue = 0
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off picture password sign-in' is set to 'Enabled'.	
+    Write-Host "Ensure 'Turn off picture password sign-in' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+    $registryName = "BlockDomainPicturePassword"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off location' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off location' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors"
+    $registryName = "DisableLocation"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off handwriting recognition error reporting' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off handwriting recognition error reporting' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\HandwritingErrorReports"
+    $registryName = "PreventHandwritingErrorReports"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off cloud optimized content' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off cloud optimized content' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $registryName = "DisableCloudOptimizedContent"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off cloud consumer account state content' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off cloud consumer account state content' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $registryName = "DisableWindowsConsumerFeatures"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off app notifications on the lock screen' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off app notifications on the lock screen' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+    $registryName = "DisableLockScreenAppNotifications"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off Push To Install service' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off Push To Install service' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\PushToInstall"
+    $registryName = "DisablePushToInstall"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off Microsoft consumer experiences' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off Microsoft consumer experiences' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $registryName = "DisableWindowsConsumerFeatures"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off KMS Client Online AVS Validation' is set to 'Enabled'.
+    Write-Host "Ensure 'Turn off KMS Client Online AVS Validation' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform"
+    $registryName = "NoGenTicket"
+    $registryValue = 1
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Turn off Autoplay' is set to 'Enabled: All drives'.
+    Write-Host "Ensure 'Turn off Autoplay' is set to 'Enabled: All drives'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $registryName = "NoDriveTypeAutoRun"
+    $registryValue = 255
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Toggle user control over Insider builds' is set to 'Disabled'.
+    Write-Host "Ensure 'Toggle user control over Insider builds' is set to 'Disabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PreviewBuilds"
+    $registryName = "AllowBuildPreview"
+    $registryValue = 0
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'System: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'.
+    Write-Host "Ensure 'System: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\System"
+    $registryName = "MaxSize"
+    $registryValue = 32768
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Setup: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'.
+    Write-Host "Ensure 'Setup: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup"
+    $registryName = "MaxSize"
+    $registryValue = 32768
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Set time limit for disconnected sessions' is set to 'Enabled: 1 minute'.
+    Write-Host "Ensure 'Set time limit for disconnected sessions' is set to 'Enabled: 1 minute'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
+    $registryName = "MaxDisconnectionTime"
+    $registryValue = 60000
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Set time limit for active but idle Remote Desktop Services sessions' is set to 'Enabled: 15 minutes or less, but not Never (0)'.
+    Write-Host "Ensure 'Set time limit for active but idle Remote Desktop Services sessions' is set to 'Enabled: 15 minutes or less, but not Never (0)'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
+    $registryName = "MaxIdleTime"
+    $registryValue = 900000
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Set the default behavior for AutoRun' is set to 'Enabled: Do not execute any autorun commands'.
+    Write-Host "Ensure 'Set the default behavior for AutoRun' is set to 'Enabled: Do not execute any autorun commands'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $registryName = "NoAutorun"
+    $registryValue = 255
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Set client connection encryption level' is set to 'Enabled: High Level'.
+    Write-Host "Ensure 'Set client connection encryption level' is set to 'Enabled: High Level'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
+    $registryName = "MinEncryptionLevel"
+    $registryValue = 3
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Security: Specify the maximum log file size (KB)' is set to 'Enabled: 196,608 or greater'.
+    Write-Host "Ensure 'Security: Specify the maximum log file size (KB)' is set to 'Enabled: 196,608 or greater'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security"
+    $registryName = "MaxSize"
+    $registryValue = 196608
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red 
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
+
+#Ensure 'Scan removable drives' is set to 'Enabled'.
+    Write-Host "Ensure 'Scan removable drives' is set to 'Enabled'."
+    # Define the registry path and value
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Scan"
+    $registryName = "DisableRemovableDriveScanning"
+    $registryValue = 0
+
+    # Function to create the registry key if it does not exist
+    function New-RegistryKey {
+        param (
+            [string]$Path
+        )
+        try {
+            if (-Not (Test-Path -Path $Path)) {
+                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+                Write-Host "Registry key created at $Path"
+            }
+        } catch {
+            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Function to set the registry value
+    function Set-RegistryValue {
+        param (
+            [string]$Path,
+            [string]$Name,
+            [int]$Value
+        )
+        try {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
+            Write-Host "Registry value $Name set to $Value at $Path"
+        } catch {
+            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
+            throw
+        }
+    }
+
+    # Main script logic
+    try {
+        # Attempt to set the registry value
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    } catch {
+        # If setting the value fails, create the key and then set the value
+        Write-Host "Attempting to create the registry key and set the value..."
+        New-RegistryKey -Path $registryPath
+        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
+    }
+
+start-sleep -Seconds 1
 
