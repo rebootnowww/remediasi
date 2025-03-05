@@ -1,0 +1,24 @@
+```
+# Remediasi Server
+## Deskripsi
+Remediasi server adalah proses untuk memperbaiki server yang tidak sesuai dengan standar keamanan yang telah ditentukan. Proses ini dilakukan dengan cara mengubah konfigurasi server sesuai dengan standar keamanan yang telah ditentukan.
+
+## Standar Keamanan
+Standar keamanan yang digunakan dalam proses remediasi server ini adalah standar keamanan yang telah ditetapkan oleh CIS (Center for Internet Security). Standar keamanan ini berisi konfigurasi yang harus diikuti oleh server agar server tersebut aman dari serangan hacker.
+
+## Cara Kerja
+Proses remediasi server ini dilakukan dengan cara menjalankan script yang telah dibuat. Script ini akan mengubah konfigurasi server sesuai dengan standar keamanan yang telah ditetapkan oleh CIS. Script ini akan mengubah konfigurasi server secara otomatis sehingga proses remediasi server dapat dilakukan dengan cepat.
+
+## Cara Penggunaan
+Untuk menggunakan script ini, pengguna harus mengikuti langkah-langkah berikut:
+1.  download script beserta file lainnya ke server yang mau di hardening
+2.  ekstrak semua file ke dalam folder "remediasi" yang di tempatkan di desktop 
+4.  buka powershell dengan run as administrator
+5.  ketikkan perintah "Set-ExecutionPolicy Unrestricted" lalu enter
+6.  ketikkan perintah "cd desktop\remediasi" lalu enter
+7.  ketikkan perintah ".\remediasi.ps1" lalu enter
+8.  tunggu proses selesai
+9.  restart server
+10. cek hasilnya
+```
+
