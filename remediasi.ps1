@@ -40,6 +40,8 @@
         Write-Host "Do a reset first so that the audit runs" -ForegroundColor Yellow
 start-sleep -Seconds 1
 
+
+
     #Copy Template AdmPwd,MSS-legacy,SecGuide
     Write-Host "Copying Template AdmPwd,MSS-legacy,SecGuide..." -ForegroundColor Yellow 
 
