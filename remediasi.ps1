@@ -1,5 +1,23 @@
 #Stage1
 
+#Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only).
+Write-Host "Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only)."
+    # Define the path to the LAPS installer
+        $desktopPath = [System.Environment]::GetFolderPath('Desktop')
+        $installerPath = Join-Path -Path $desktopPath -ChildPath "remediasi\LAPS.x64.msi"
+
+        # Install LAPS
+        Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait
+
+        # Verify installation
+        if (Test-Path "C:\Program Files\LAPS\CSE\AdmPwd.dll") {
+            Write-Host "LAPS installed successfully." -ForegroundColor Green
+        } else {
+            Write-Host "LAPS installation failed." -ForegroundColor Red
+        }
+
+start-sleep -Seconds 1
+
 #Copy supporting data
         #Copy file audit.csv to the specified folders
         Write-Host "Copying audit.csv to the specified folders..." -ForegroundColor Yellow 
@@ -3145,24 +3163,6 @@ Write-Host "Ensure 'Allow Online Tips' is set to 'Disabled'."
         New-RegistryKey -Path $registryPath
         Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
     }
-
-start-sleep -Seconds 1
-
-#Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only).
-Write-Host "Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only)."
-    # Define the path to the LAPS installer
-        $desktopPath = [System.Environment]::GetFolderPath('Desktop')
-        $installerPath = Join-Path -Path $desktopPath -ChildPath "remediasi\LAPS.x64.msi"
-
-        # Install LAPS
-        Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait
-
-        # Verify installation
-        if (Test-Path "C:\Program Files\LAPS\CSE\AdmPwd.dll") {
-            Write-Host "LAPS installed successfully." -ForegroundColor Green
-        } else {
-            Write-Host "LAPS installation failed." -ForegroundColor Red
-        }
 
 start-sleep -Seconds 1
 
