@@ -1,5 +1,23 @@
 #Stage1
 
+#Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only).
+Write-Host "Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only)."
+    # Define the path to the LAPS installer
+        $desktopPath = [System.Environment]::GetFolderPath('Desktop')
+        $installerPath = Join-Path -Path $desktopPath -ChildPath "remediasi\LAPS.x64.msi"
+
+        # Install LAPS
+        Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait
+
+        # Verify installation
+        if (Test-Path "C:\Program Files\LAPS\CSE\AdmPwd.dll") {
+            Write-Host "LAPS installed successfully." -ForegroundColor Green
+        } else {
+            Write-Host "LAPS installation failed." -ForegroundColor Red
+        }
+
+start-sleep -Seconds 1
+
 #Copy supporting data
         #Copy file audit.csv to the specified folders
         Write-Host "Copying audit.csv to the specified folders..." -ForegroundColor Yellow 
@@ -3145,24 +3163,6 @@ Write-Host "Ensure 'Allow Online Tips' is set to 'Disabled'."
         New-RegistryKey -Path $registryPath
         Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
     }
-
-start-sleep -Seconds 1
-
-#Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only).
-Write-Host "Ensure LAPS AdmPwd GPO Extension / CSE is installed (MS only)."
-    # Define the path to the LAPS installer
-        $desktopPath = [System.Environment]::GetFolderPath('Desktop')
-        $installerPath = Join-Path -Path $desktopPath -ChildPath "remediasi\LAPS.x64.msi"
-
-        # Install LAPS
-        Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait
-
-        # Verify installation
-        if (Test-Path "C:\Program Files\LAPS\CSE\AdmPwd.dll") {
-            Write-Host "LAPS installed successfully." -ForegroundColor Green
-        } else {
-            Write-Host "LAPS installation failed." -ForegroundColor Red
-        }
 
 start-sleep -Seconds 1
 
@@ -11827,150 +11827,4 @@ try {
 start-sleep -Seconds 1
 
 #endstage15
-
-#stage16
-
-#Ensure 'Do not allow COM port redirection' is set to 'Enabled'.
-    Write-Host "Ensure 'Do not allow COM port redirection' is set to 'Enabled'."
-    # Define the registry path and value
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
-    $registryName = "fDisableCcm"
-    $registryValue = 1
-    # Function to create the registry key if it does not exist
-    function New-RegistryKey {
-        param (
-            [string]$Path
-        )
-        try {
-            if (-Not (Test-Path -Path $Path)) {
-                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-                Write-Host "Registry key created at $Path"
-            }
-        } catch {
-            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Function to set the registry value
-    function Set-RegistryValue {
-        param (
-            [string]$Path,
-            [string]$Name,
-            [int]$Value
-        )
-        try {
-            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
-            Write-Host "Registry value $Name set to $Value at $Path"
-        } catch {
-            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Main script logic
-    try {
-        # Attempt to set the registry value
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    } catch {
-        # If setting the value fails, create the key and then set the value
-        Write-Host "Attempting to create the registry key and set the value..."
-        New-RegistryKey -Path $registryPath
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    }
-start-sleep -Seconds 1
-
-#Ensure 'Do not allow LPT port redirection' is set to 'Enabled'.
-    Write-Host "Ensure 'Do not allow LPT port redirection' is set to 'Enabled'."
-    # Define the registry path and value
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
-    $registryName = "fDisableLpt"
-    $registryValue = 1
-    # Function to create the registry key if it does not exist
-    function New-RegistryKey {
-        param (
-            [string]$Path
-        )
-        try {
-            if (-Not (Test-Path -Path $Path)) {
-                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-                Write-Host "Registry key created at $Path"
-            }
-        } catch {
-            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Function to set the registry value
-    function Set-RegistryValue {
-        param (
-            [string]$Path,
-            [string]$Name,
-            [int]$Value
-        )
-        try {
-            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
-            Write-Host "Registry value $Name set to $Value at $Path"
-        } catch {
-            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Main script logic
-    try {
-        # Attempt to set the registry value
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    } catch {
-        # If setting the value fails, create the key and then set the value
-        Write-Host "Attempting to create the registry key and set the value..."
-        New-RegistryKey -Path $registryPath
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    }
-start-sleep -Seconds 1
-
-#Ensure 'Disallow WinRM from storing RunAs credentials' is set to 'Enabled'.
-    Write-Host "Ensure 'Disallow WinRM from storing RunAs credentials' is set to 'Enabled'."
-    # Define the registry path and value
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service"
-    $registryName = "DisableRunAs"
-    $registryValue = 1
-    # Function to create the registry key if it does not exist
-    function New-RegistryKey {
-        param (
-            [string]$Path
-        )
-        try {
-            if (-Not (Test-Path -Path $Path)) {
-                New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-                Write-Host "Registry key created at $Path"
-            }
-        } catch {
-            Write-Host "Failed to create registry key at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Function to set the registry value
-    function Set-RegistryValue {
-        param (
-            [string]$Path,
-            [string]$Name,
-            [int]$Value
-        )
-        try {
-            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type DWord -Force -ErrorAction Stop
-            Write-Host "Registry value $Name set to $Value at $Path"
-        } catch {
-            Write-Host "Failed to set registry value $Name at $Path. Error: $($_.Exception.Message)" -ForegroundColor Red
-            throw
-        }
-    }
-    # Main script logic
-    try {
-        # Attempt to set the registry value
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    } catch {
-        # If setting the value fails, create the key and then set the value
-        Write-Host "Attempting to create the registry key and set the value..."
-        New-RegistryKey -Path $registryPath
-        Set-RegistryValue -Path $registryPath -Name $registryName -Value $registryValue
-    }
-start-sleep -Seconds 1
 
